@@ -6,6 +6,7 @@ import UploadBox from "./components/UploadBox";
 function App() {
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [analysis, setAnalysis] = useState("");
   const handleAnalyze = async () => {
   if (!selectedFile) {
     alert("Please upload a resume first.");
@@ -23,7 +24,7 @@ function App() {
       formData
     );
 
-    alert(response.data.message);
+    setAnalysis(response.data.analysis);
   } catch (error) {
     console.error(error);
     alert("Upload failed.");
@@ -50,6 +51,17 @@ function App() {
         >
           {loading ? "Analyzing..." : "Analyze Resume"}
         </button>
+        {analysis && (
+          <div className="mt-8 text-left bg-gray-50 border border-gray-200 rounded-xl p-6">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+              AI Resume Analysis
+            </h2>
+
+            <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
+              {analysis}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
