@@ -1,7 +1,17 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-function UploadBox({ setSelectedFile }) {
+function UploadBox({ setSelectedFile, resetTrigger }) {
   const [file, setFile] = useState(null);
+  const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    setFile(null);
+    setSelectedFile(null);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  }, [resetTrigger, setSelectedFile]);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -16,7 +26,6 @@ function UploadBox({ setSelectedFile }) {
       return;
     }
 
-    // Update both local state and App state
     setFile(selectedFile);
     setSelectedFile(selectedFile);
   };
@@ -36,6 +45,7 @@ function UploadBox({ setSelectedFile }) {
           Browse Files
 
           <input
+            ref={fileInputRef}
             type="file"
             accept=".pdf"
             onChange={handleFileChange}

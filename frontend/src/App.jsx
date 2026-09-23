@@ -7,6 +7,14 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [analysis, setAnalysis] = useState(null);
+  const [resetTrigger, setResetTrigger] = useState(0);
+
+  // Reset the current resume and analysis
+  const handleReset = () => {
+    setSelectedFile(null);
+    setAnalysis(null);
+    setResetTrigger((prev) => prev + 1);
+  };
 
   const handleAnalyze = async () => {
     if (!selectedFile) {
@@ -39,7 +47,10 @@ function App() {
       <div className="bg-white p-10 rounded-2xl shadow-xl w-[700px] text-center">
         <Header />
 
-        <UploadBox setSelectedFile={setSelectedFile} />
+        <UploadBox
+          setSelectedFile={setSelectedFile}
+          resetTrigger={resetTrigger}
+        />
 
         <button
           onClick={handleAnalyze}
@@ -138,6 +149,14 @@ function App() {
                 {analysis.summary}
               </p>
             </div>
+
+            {/* Analyze Another Resume */}
+            <button
+              onClick={handleReset}
+              className="w-full mt-2 px-6 py-3 rounded-lg bg-gray-700 hover:bg-gray-800 text-white font-semibold transition"
+            >
+              Analyze Another Resume
+            </button>
 
           </div>
         )}
