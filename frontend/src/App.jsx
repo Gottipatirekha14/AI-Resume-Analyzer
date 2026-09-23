@@ -6,7 +6,7 @@ import UploadBox from "./components/UploadBox";
 function App() {
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [analysis, setAnalysis] = useState("");
+  const [analysis, setAnalysis] = useState(null);
   const handleAnalyze = async () => {
   if (!selectedFile) {
     alert("Please upload a resume first.");
@@ -52,16 +52,72 @@ function App() {
           {loading ? "Analyzing..." : "Analyze Resume"}
         </button>
         {analysis && (
-          <div className="mt-8 text-left bg-gray-50 border border-gray-200 rounded-xl p-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">
-              AI Resume Analysis
-            </h2>
+  <div className="mt-8 text-left space-y-6">
 
-            <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
-              {analysis}
-            </div>
-          </div>
-        )}
+    {/* ATS Score */}
+    <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 text-center">
+      <h2 className="text-xl font-bold text-gray-800 mb-2">
+        ATS Score
+      </h2>
+
+      <p className="text-5xl font-bold text-blue-600">
+        {analysis.ats_score}
+        <span className="text-2xl text-gray-500">/100</span>
+      </p>
+    </div>
+
+    {/* Resume Strengths */}
+    <div className="bg-green-50 border border-green-200 rounded-xl p-6">
+      <h2 className="text-xl font-bold text-gray-800 mb-3">
+        Resume Strengths
+      </h2>
+
+      <ul className="list-disc list-inside space-y-2 text-gray-700">
+        {analysis.strengths.map((strength, index) => (
+          <li key={index}>{strength}</li>
+        ))}
+      </ul>
+    </div>
+
+    {/* Missing Skills */}
+    <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6">
+      <h2 className="text-xl font-bold text-gray-800 mb-3">
+        Missing Skills / Keywords
+      </h2>
+
+      <ul className="list-disc list-inside space-y-2 text-gray-700">
+        {analysis.missing_skills.map((skill, index) => (
+          <li key={index}>{skill}</li>
+        ))}
+      </ul>
+    </div>
+
+    {/* Improvements */}
+    <div className="bg-purple-50 border border-purple-200 rounded-xl p-6">
+      <h2 className="text-xl font-bold text-gray-800 mb-3">
+        Areas for Improvement
+      </h2>
+
+      <ul className="list-disc list-inside space-y-2 text-gray-700">
+        {analysis.improvements.map((improvement, index) => (
+          <li key={index}>{improvement}</li>
+        ))}
+      </ul>
+    </div>
+
+    {/* Summary */}
+    <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
+      <h2 className="text-xl font-bold text-gray-800 mb-3">
+        Overall Summary
+      </h2>
+
+      <p className="text-gray-700 leading-relaxed">
+        {analysis.summary}
+      </p>
+    </div>
+
+  </div>
+)}
       </div>
     </div>
   );
